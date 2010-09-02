@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>send sms</title>
+  <style type="text/css">
+        #gsms_form { background-color: #FAF3DC; width: 200px; padding-top:5px;}
+        .gsms_field {padding: 5px; margin: 3px; width: 95%;}
+        .clear{clear:both;}
+        .gsms_button{margin:3px 5px 5px 0; float:right;}
+        .gsms_counter{margin: 3px; float:left;}
+        .success_status{color:green; font-size:12px; font-weight: bold; margin:0 5px;}
+        .failure_status{color:red; font-size:12px; font-weight: bold; margin:0 5px;}
+        .clearFieldBlurred { color: #aaa; font-style: italic; }
+        .clearFieldActive { color: #000;}
+  </style>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="http://labs.thesedays.com/projects/jquery/clearfield/jquery.clearfield.packed.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+$(document).ready(function() {
+                $('.clearField').clearField({blurClass: 'clearFieldBlurred',
+                activeClass: 'clearFieldActive'});
+                });
+
+jQuery.ajaxSetup({ 
+  'beforeSend': function(xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+})
+
+$(document).ready(function(){ 
+   $("#gsms_form").submit(function(){ 
+   console.log($("#gsms_form").serialize());
+      $.post( "http://deathstar.clearsenses.com:3011/send_sms", 
+          $(this).serialize(), 
+           function(data){ 
+              $("#gsms_status").html("Sent Successfully").addClass("success_status"); 
+              gadgets.window.adjustHeight();
+            } 
+         ); 
+    }); 
+}); 
+
+function check_length(my_form){
+  maxLen = 90;
+  if (my_form.gsms_message.value.length >= maxLen) {
+     my_form.gsms_message.value = my_form.gsms_message.value.substring(0, maxLen);
+  }
+  else{ // Maximum length not reached so update the value of my_text counter
+    my_form.gsms_counter.value = maxLen - my_form.gsms_message.value.length;
+    }
+}
+</script>
+
+<form id="gsms_form" method="post" onsubmit="return false;"> 
+    <div id="gsms_status"></div>
+    <input id="gsms_name" name="gsms_name" class="clearField gsms_field" type="text" maxlength="25" value="Name"/> 
+    <br />
+    <input id="gsms_mobile" name="gsms_mobile" class="clearField gsms_field" type="text" maxlength="15" value="Mobile" /> 
+    <br />
+    <textarea id="gsms_message" onKeyPress=check_length(this.form); onKeyDown=check_length(this.form);  name="gsms_message" rows="5" class="clearField gsms_field" maxlength="100">...Type Message</textarea> 
+    <br />
+     <input id="gsms_submit" class="gsms_button" type="submit" name="gsms_submit" value="Send" />
+ <input size="1" value="90" name="gsms_counter" class="gsms_counter" readonly="true" type="button"/>
+    <br />
+    <div class="clear"></div>
+</form>
+
+</body>
+</html>

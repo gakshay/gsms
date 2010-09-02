@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  s_id: 1
+  d_id: 1
+  message: MyText
+  status: false
+
+two:
+  s_id: 1
+  d_id: 1
+  message: MyText
+  status: false
