@@ -14,4 +14,17 @@ config.action_view.debug_rjs                         = true
 config.action_controller.perform_caching             = false
 
 # Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.delivery_method = :smtp
+
+Net::SMTP.enable_tls( OpenSSL::SSL::VERIFY_NONE )
+ActionMailer::Base.smtp_settings = {
+     :enable_starttls_auto => true,
+     :address => 'smtp.gmail.com',
+     :port => 587,
+     :tls  => 'true',
+     :domain => 'gmail.com',
+     :authentication => :plain,
+     :user_name => 'akshay.aries11@gmail.com',
+     :password => 'c!n3much0'
+ }

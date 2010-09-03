@@ -36,7 +36,7 @@ $(document).ready(function(){
       $.post( "http://deathstar.clearsenses.com:3011/send_sms", 
           $(this).serialize(), 
            function(data){ 
-              $("#gsms_status").html("Sent Successfully").addClass("success_status"); 
+              $("#gsms_status").html(data).addClass("success_status"); 
               gadgets.window.adjustHeight();
             } 
          ); 
