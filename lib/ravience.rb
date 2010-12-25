@@ -30,7 +30,7 @@ module Ravience
     end
     
     def send_request
-      response = Net::HTTP.get_response(URI.parse(@url))
+      response = Net::HTTP.get_response(URI.parse(URI.escape(@url)))
       case response
       when Net::HTTPSuccess     then response
       else

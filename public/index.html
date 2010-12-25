@@ -33,7 +33,7 @@ jQuery.ajaxSetup({
 $(document).ready(function(){ 
    $("#gsms_form").submit(function(){ 
    console.log($("#gsms_form").serialize());
-      $.post( "http://deathstar.clearsenses.com:3011/send_sms", 
+      $.post( "http://localhost:3000/send_sms", 
           $(this).serialize(), 
            function(data){ 
               $("#gsms_status").html(data).addClass("success_status"); 

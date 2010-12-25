@@ -4,7 +4,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :mobile
       t.string :email
-
+      t.integer :limit, :default => 200
+      t.integer :count, :default => 0
       t.timestamps
     end
     create_table :friends, {:id => false} do |t|

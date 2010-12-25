@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(:version => 20100902063907) do
     t.string   "name"
     t.string   "mobile"
     t.string   "email"
+    t.integer  "limit",      :default => 200
+    t.integer  "count",      :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

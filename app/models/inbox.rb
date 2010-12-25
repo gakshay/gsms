@@ -8,36 +8,37 @@ class Inbox < ActiveRecord::Base
     name = params[:gsms_name].strip_tags.strip
     message = params[:gsms_message].strip_tags.strip
     
-    if mobile_valid?(mobile)
-      recipient = get_recipient_user(mobile, name)
+    if self.mobile_valid(mobile)
+      recipient = self.get_recipient_user(mobile, name)
       if recipient.present?
-        send_message(recipient, message)
+        self.send_message(recipient, message)
       else
-        return 500, "No Recipient Found"
+        return 200, "No Recipient Found"
       end
     else
-      return 500, "Mobile number not valid!"
+      return 200, "Mobile number not valid!"
     end
 	end
 	
-	def mobile_valid?(mobile)
+	def self.mobile_valid(mobile)
 	  number = mobile[/\d+/][/\d{1,10}$/]
 	  number.length == 10 ? number.to_i : nil
 	end
 	
-	def get_recipient_user(mobile, name)
+	def self.get_recipient_user(mobile, name)
 	  user = User.find_or_create_by_mobile(:mobile => mobile, :name => name)
 	 	user.present? ? user : nil
 	end
 	
-	def send_message(recipient, message, sender = nil)
+	def self.send_message(recipient, message, sender = nil)
 	  request = Ravience::Request.new(recipient.mobile, message)
 	  response = request.send_request
 	  if response
-	    sms = self.create(:message => params[:message], :d_id => recipient.id) 
+	    sms = self.create(:message => message, :d_id => recipient.id) 
+	    recipient.update_attributes(:count => recipient.count+1)
 	 	  return 200, "Message sent successfully!"
 	 	else
-	 	  return 500, "Message sending failed!"
+	 	  return 200, "Message sending failed!"
  	  end
 	end
 end
