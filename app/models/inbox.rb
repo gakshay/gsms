@@ -8,9 +8,9 @@ class Inbox < ActiveRecord::Base
     name = params[:gsms_name].strip_tags.strip
     message = params[:gsms_message].strip_tags.strip
     
-    if self.mobile_valid(mobile)
+    unless self.mobile_valid(mobile).blank?
       recipient = self.get_recipient_user(mobile, name)
-      if recipient.present?
+      unless recipient.blank?
         self.send_message(recipient, message)
       else
         return 200, "No Recipient Found"
